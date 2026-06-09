@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Music cover</title>
+  <desc id="desc">A gentle night music cover with headphones, notes, waveform, and warm light.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#24352c"/>
+      <stop offset="0.55" stop-color="#234535"/>
+      <stop offset="1" stop-color="#6f816d"/>
+    </linearGradient>
+    <radialGradient id="lamp" cx="50%" cy="50%" r="50%">
+      <stop stop-color="#fffaf1" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#b9906e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="875" cy="215" r="210" fill="url(#lamp)"/>
+  <g opacity="0.18" fill="#fffaf1">
+    <circle cx="150" cy="120" r="4"/>
+    <circle cx="265" cy="210" r="3"/>
+    <circle cx="1035" cy="110" r="4"/>
+    <circle cx="990" cy="520" r="3"/>
+    <circle cx="720" cy="90" r="2.5"/>
+  </g>
+  <g transform="translate(255 165)" fill="none" stroke-linecap="round">
+    <path d="M190 265 C190 122 300 40 450 40 C600 40 710 122 710 265" stroke="#fffaf1" stroke-width="28" opacity="0.88"/>
+    <rect x="125" y="250" width="120" height="190" rx="52" fill="#f7f1e8" stroke="#b9906e" stroke-width="8"/>
+    <rect x="655" y="250" width="120" height="190" rx="52" fill="#f7f1e8" stroke="#b9906e" stroke-width="8"/>
+    <path d="M300 350 C345 250 392 440 438 330 C480 230 532 438 590 315" stroke="#a9b7a5" stroke-width="18"/>
+    <path d="M285 455 C360 415 430 510 505 458 C565 417 635 470 700 430" stroke="#fffaf1" stroke-width="7" opacity="0.58"/>
+  </g>
+  <g fill="#fffaf1" opacity="0.86">
+    <path d="M870 355 v-118 h22 v95 c28-10 55 2 60 26 6 30-22 57-58 52-20-3-24-18-24-55Z"/>
+    <path d="M970 465 v-145 h22 v118 c27-9 53 2 58 25 7 30-22 57-56 52-22-3-24-19-24-50Z"/>
+  </g>
+  <path d="M0 675 C230 590 390 710 610 615 C800 535 970 625 1200 555 L1200 800 L0 800 Z" fill="#fffaf1" opacity="0.08"/>
+</svg>

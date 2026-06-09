@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">AI Companion and VR Home</title>
+  <desc id="desc">A quiet green and cream illustrated cover for an AI companion and VR home project.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f3e8"/>
+      <stop offset="0.55" stop-color="#e8e1cf"/>
+      <stop offset="1" stop-color="#cfd9c8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="48%">
+      <stop offset="0" stop-color="#fffdf7" stop-opacity="0.88"/>
+      <stop offset="1" stop-color="#fffdf7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="720" fill="url(#bg)"/>
+  <circle cx="620" cy="320" r="360" fill="url(#glow)"/>
+  <g opacity="0.24" fill="none" stroke="#4f6658" stroke-width="5">
+    <path d="M120 560 C240 430 320 400 430 430 C520 455 570 515 660 500 C790 478 840 350 1030 270"/>
+    <path d="M198 480 C225 445 260 432 306 436"/>
+    <path d="M820 370 C846 336 884 318 940 314"/>
+  </g>
+  <g transform="translate(330 150)">
+    <rect x="0" y="60" width="540" height="360" rx="34" fill="#fffdf7" opacity="0.78" stroke="#4f6658" stroke-opacity="0.3" stroke-width="4"/>
+    <rect x="48" y="110" width="170" height="220" rx="20" fill="#dfe7da" stroke="#4f6658" stroke-opacity="0.26"/>
+    <rect x="272" y="108" width="220" height="170" rx="24" fill="#eef1e8" stroke="#4f6658" stroke-opacity="0.24"/>
+    <circle cx="382" cy="193" r="54" fill="#9aaa8d" opacity="0.48"/>
+    <path d="M110 350 C145 318 175 318 214 350" fill="none" stroke="#b9a58c" stroke-width="8" stroke-linecap="round"/>
+    <path d="M300 323 C354 292 410 292 466 323" fill="none" stroke="#4f6658" stroke-opacity="0.45" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g opacity="0.36" fill="#4f6658">
+    <circle cx="230" cy="205" r="8"/>
+    <circle cx="980" cy="510" r="7"/>
+    <circle cx="920" cy="160" r="5"/>
+  </g>
+  <text x="600" y="640" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="38" fill="#4f6658">AI Companion &amp; VR Home</text>
+</svg>

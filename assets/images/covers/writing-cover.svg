@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Writing cover</title>
+  <desc id="desc">A quiet writing cover with notebook, pages, ink, and desk light.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fffaf1"/>
+      <stop offset="0.55" stop-color="#e7e3da"/>
+      <stop offset="1" stop-color="#a9b7a5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <circle cx="920" cy="155" r="150" fill="#b9906e" opacity="0.2"/>
+  <rect x="220" y="190" width="760" height="420" rx="18" fill="#6e5a48" opacity="0.18"/>
+  <g transform="translate(270 150)">
+    <path d="M65 90 C180 50 280 78 345 128 L345 500 C250 440 160 428 65 460 Z" fill="#fffaf1" stroke="#6e5a48" stroke-width="6"/>
+    <path d="M345 128 C432 70 565 58 660 92 L660 462 C548 428 455 438 345 500 Z" fill="#f7f1e8" stroke="#6e5a48" stroke-width="6"/>
+    <path d="M345 128 L345 500" stroke="#b9906e" stroke-width="5"/>
+    <g stroke="#6f816d" stroke-width="5" opacity="0.65">
+      <path d="M115 175 C180 150 245 155 300 185"/>
+      <path d="M112 230 C178 205 240 210 300 238"/>
+      <path d="M105 288 C175 260 245 270 302 300"/>
+      <path d="M410 175 C480 150 548 150 615 172"/>
+      <path d="M405 232 C478 205 550 210 615 235"/>
+      <path d="M405 292 C475 262 550 268 610 296"/>
+    </g>
+    <circle cx="710" cy="385" r="28" fill="#24352c" opacity="0.88"/>
+    <path d="M714 370 C755 315 792 282 842 252" stroke="#24352c" stroke-width="15" stroke-linecap="round"/>
+    <path d="M850 244 L884 225 L868 260 Z" fill="#b9906e"/>
+  </g>
+  <path d="M0 655 C220 594 400 680 600 610 C780 550 995 598 1200 530 L1200 800 L0 800 Z" fill="#234535" opacity="0.16"/>
+</svg>

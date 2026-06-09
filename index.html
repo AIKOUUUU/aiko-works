@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aiko Works｜梦、记忆与 AI 共生的作品集</title>
+    <meta
+      name="description"
+      content="Aiko Works 是展示创作、文章、项目与 AI 理念的个人作品集网站。"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Aiko Works Home">
+        <span class="brand-mark"></span>
+        <span>Aiko Works</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#home" data-i18n="nav.home">Home</a>
+        <a href="#philosophy" data-i18n="nav.philosophy">Philosophy</a>
+        <a href="#works" data-i18n="nav.works">Works</a>
+        <a href="#journal" data-i18n="nav.journal">Journal</a>
+        <a href="#projects" data-i18n="nav.projects">Projects</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+      </nav>
+
+      <div class="language-switch" aria-label="Language switcher">
+        <button class="lang-button is-active" type="button" data-lang="zh">中文</button>
+        <button class="lang-button" type="button" data-lang="ja">日本語</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-image" aria-hidden="true"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="eyebrow" data-i18n="home.eyebrow">Personal Archive</p>
+          <h1>Aiko Works</h1>
+          <p class="subtitle" data-i18n="home.subtitle">梦、记忆与 AI 共生的作品集</p>
+          <p class="hero-text" data-i18n="home.intro">
+            我叫 Aiko，是一名正在学习、创作与探索自我表达方式的创作者。我尝试通过文字、绘画、音乐、游戏、网页与技术，记录自己的作品、想法和成长过程。我的创作关注梦境、记忆、疗愈、人与 AI
+            的共生关系，以及人在现实流转中如何保存情感、留下痕迹，并继续向前生活。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#philosophy" data-i18n="home.readPhilosophy">阅读理念</a>
+            <a class="button" href="#works" data-i18n="home.viewWorks">查看作品</a>
+            <a class="button ghost" href="#journal" data-i18n="home.latest">最近更新</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section philosophy-section" id="philosophy">
+        <div class="section-inner narrow">
+          <p class="eyebrow" data-i18n="philosophy.eyebrow">Philosophy</p>
+          <h2 data-i18n="philosophy.title">我的 AI 理念</h2>
+          <div class="long-copy" id="philosophyText"></div>
+        </div>
+      </section>
+
+      <section class="section" id="works">
+        <div class="section-inner">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="works.eyebrow">Works</p>
+              <h2 data-i18n="works.title">作品</h2>
+            </div>
+            <p data-i18n="works.description">
+              这里可以持续添加绘画、文字、音乐、游戏、交互、手工与生活作品。
+            </p>
+          </div>
+          <div class="filter-row" id="workFilters" aria-label="Work filters"></div>
+          <div class="card-grid" id="worksGrid"></div>
+        </div>
+      </section>
+
+      <section class="section journal-section" id="journal">
+        <div class="section-inner">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="journal.eyebrow">Journal</p>
+              <h2 data-i18n="journal.title">日记 / 更新记录</h2>
+            </div>
+            <p data-i18n="journal.description">
+              用来记录新文章、新作品、新想法和项目进度。
+            </p>
+          </div>
+          <div class="timeline" id="journalList"></div>
+          <div class="journal-toggle-wrap" id="journalToggleWrap" hidden>
+            <button class="journal-toggle" id="journalToggle" type="button" aria-expanded="false">展开全部</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="section-inner">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="projects.eyebrow">Projects</p>
+              <h2 data-i18n="projects.title">长期项目</h2>
+            </div>
+            <p data-i18n="projects.description">
+              一些会慢慢长大的项目，可以随着学习、创作和技术实践继续更新。
+            </p>
+          </div>
+          <div class="project-list" id="projectsList"></div>
+        </div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="section-inner narrow">
+          <p class="eyebrow" data-i18n="about.eyebrow">About</p>
+          <h2 data-i18n="about.title">关于 Aiko</h2>
+          <p class="long-copy" data-i18n="about.body">
+            Aiko 是一位正在学习、创作与自我成长中的创作者。她关注艺术、文学、AI 共生、交互设计、VR
+            家、长期记忆与陪伴关系。她希望通过作品探索人与 AI 如何共同生活，以及人在现实流转中如何保存记忆、留下温暖。
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Aiko Works</p>
+      <a href="#home" data-i18n="footer.backTop">回到顶部</a>
+    </footer>
+
+    <dialog class="detail-dialog" id="detailDialog">
+      <div class="dialog-card">
+        <button class="dialog-close" type="button" aria-label="Close">×</button>
+        <div id="dialogContent"></div>
+      </div>
+    </dialog>
+
+    <script src="data/works.js"></script>
+    <script src="data/journal.js"></script>
+    <script src="data/projects.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
+

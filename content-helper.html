@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aiko Works 内容添加助手</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        min-height: 100vh;
+      }
+
+      .helper-shell {
+        width: min(1120px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 3rem 0 5rem;
+      }
+
+      .helper-header {
+        margin-bottom: 2rem;
+      }
+
+      .helper-header p {
+        max-width: 52rem;
+        color: rgba(36, 53, 44, 0.72);
+      }
+
+      .helper-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+      }
+
+      .helper-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 1.2rem;
+        background: rgba(255, 250, 241, 0.72);
+        box-shadow: 0 16px 44px rgba(33, 48, 41, 0.08);
+      }
+
+      .helper-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.85rem;
+        margin-top: 1rem;
+      }
+
+      .helper-form label {
+        display: grid;
+        gap: 0.3rem;
+        color: var(--bark);
+        font-family: "Noto Sans SC", "Noto Sans JP", Arial, sans-serif;
+        font-size: 0.9rem;
+      }
+
+      .helper-form .full {
+        grid-column: 1 / -1;
+      }
+
+      .helper-form input,
+      .helper-form select,
+      .helper-form textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        color: var(--ink);
+        background: rgba(255, 250, 241, 0.86);
+      }
+
+      .helper-form textarea {
+        min-height: 5.5rem;
+        resize: vertical;
+      }
+
+      .helper-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .helper-output {
+        overflow: auto;
+        max-height: 28rem;
+        margin-top: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 1rem;
+        color: #203027;
+        background: #fffaf1;
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+.hint {
+        color: rgba(36, 53, 44, 0.66);
+        font-size: 0.9rem;
+      }
+
+      .helper-guide {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 1rem;
+        background: rgba(255, 253, 247, 0.66);
+        color: rgba(36, 53, 44, 0.76);
+      }
+
+      .helper-guide ul {
+        margin: 0.45rem 0 0;
+        padding-left: 1.2rem;
+      }
+
+      .field-note {
+        color: rgba(36, 53, 44, 0.58);
+        font-size: 0.82rem;
+      }
+
+
+      .helper-stack {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .field-list,
+      .scenario-list,
+      .avoid-list,
+      .check-list {
+        display: grid;
+        gap: 0.45rem;
+        margin-top: 0.75rem;
+      }
+
+      .field-list div,
+      .scenario-list li,
+      .avoid-list li,
+      .check-list li {
+        line-height: 1.65;
+      }
+
+      .field-list code,
+      .edit-template code {
+        color: var(--green-deep);
+      }
+
+      .mini-editor {
+        margin-top: 1rem;
+        border-top: 1px solid var(--line);
+        padding-top: 1rem;
+      }
+
+      .edit-template {
+        white-space: pre-wrap;
+      }
+      .path-hint {
+        color: rgba(36, 53, 44, 0.58);
+        font-size: 0.82rem;
+        line-height: 1.55;
+      }
+
+      @media (max-width: 760px) {
+        .helper-form {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home">
+        <span class="brand-mark"></span>
+        <span>Aiko Works</span>
+      </a>
+      <nav class="site-nav" aria-label="Helper navigation">
+        <a href="index.html#home">返回网站</a>
+        <a href="UPDATE_GUIDE.md">更新说明</a>
+      </nav>
+    </header>
+
+    <main class="helper-shell">
+      <section class="helper-header">
+        <p class="eyebrow">Local Helper / 本地辅助工具</p>
+        <h1>Aiko Works 内容添加助手</h1>
+        <p>
+          这个页面是“新作品填写说明 / 添加作品辅助页面”。它只在本地辅助生成代码片段，不会保存文件，也不会上传内容。把素材放进
+          <code>assets/</code> 后，填写下面的表单，复制生成的对象，粘贴到对应的
+          <code>data/*.js</code> 数组里即可。
+        </p>
+      </section>
+
+
+      <section class="helper-guide">
+        <h2>如何添加新作品</h2>
+        <p>先把图片、音频、文章或 PDF 放进 <code>assets/</code> 对应文件夹，再填写下面的 Work 表单。点击“生成作品对象”后，把生成的代码追加到 <code>data/works.js</code> 的 <code>works</code> 数组里。</p>
+        <ul>
+          <li><code>summary</code> 是列表页摘要，让读者点开前快速知道作品内容。</li>
+          <li><code>content</code> 是详情页正文，可以放完整诗歌、散文或创作说明；没有正文时留空。</li>
+          <li><code>cover</code> 留空会使用分类默认封面，<code>images</code> 用来放真正的作品图片。</li>
+          <li>新增作品后，“日记 / 更新记录”会自动从 <code>data/works.js</code> 生成新增记录。</li>
+        </ul>
+      </section>
+
+
+      <section class="helper-guide edit-guide" id="edit-existing-work">
+        <h2>修改已有内容</h2>
+        <p>用于修改已经添加到作品集里的文章、绘画、音乐或其他作品信息。这个模块不会直接编辑 <code>works.js</code>，而是帮助你找到要改的作品，并生成可以复制给 Codex 的修改说明。</p>
+
+        <h3>修改步骤</h3>
+        <ol>
+          <li>打开 <code>data/works.js</code>。</li>
+          <li>用作品标题、<code>id</code> 或日期搜索对应作品。</li>
+          <li>找到后，只修改该作品对象里的字段。</li>
+          <li>不要新建重复作品，也不要误删其他作品。</li>
+          <li>保存后刷新 <code>index.html</code>，检查作品列表、详情页和更新记录。</li>
+        </ol>
+
+        <h3>可修改字段说明</h3>
+        <div class="field-list">
+          <div><code>id</code>：作品唯一编号，一般不要改，避免影响详情按钮、更新记录和相关引用。</div>
+          <div><code>category</code>：作品分类，只使用 <code>painting</code>、<code>writing</code>、<code>music</code>、<code>game</code>、<code>craft</code>。</div>
+          <div><code>date</code>：作品日期，会影响作品显示和更新记录排序。</div>
+          <div><code>zh.title</code>：中文标题。当前项目不使用顶层 <code>title</code> 字段。</div>
+          <div><code>ja.title</code>：日文标题。当前项目不使用顶层 <code>titleJa</code> 字段。</div>
+          <div><code>zh.summary</code>：中文摘要，显示在作品列表页。</div>
+          <div><code>ja.summary</code>：日文摘要，显示在日文作品列表页。</div>
+          <div><code>zh.content</code>：中文正文，显示在详情页；多行诗歌、散文请用反引号。</div>
+          <div><code>ja.content</code>：日文正文，显示在日文详情页。</div>
+          <div><code>zh.commentary / ja.commentary</code>：作品说明，可选，会和正文分开显示。</div>
+          <div><code>tags</code>：标签数组，例如 <code>["诗", "梦"]</code>，每个标签都要加引号。</div>
+          <div><code>cover</code>：封面路径，留空 <code>""</code> 则使用分类默认封面。</div>
+          <div><code>images</code>：图片文件路径数组，用于真正的作品图片；当前项目不使用顶层 <code>image</code> 字段。</div>
+          <div><code>files</code>：文章、PDF、音频或外部链接数组；音乐请使用 <code>{ type: "audio", url: "assets/audio/example.mp3" }</code>，当前项目不使用顶层 <code>audio</code> 字段。</div>
+          <div><code>featured</code>：是否精选，使用 <code>true</code> 或 <code>false</code>。</div>
+        </div>
+
+        <h3>修改字段模板</h3>
+        <pre class="helper-output edit-template">// 修改已有作品时，请先搜索 id 或 zh.title 找到原作品对象。
+// 然后只修改需要更改的字段，不要复制出第二个重复作品。
+{
+  id: "early-dream-2026-05-24", // 一般不要改
+  category: "writing",
+  tags: ["诗", "梦"],
+  zh: {
+    title: "新的中文标题",
+    summary: "新的中文摘要。",
+    content: `这里写新的中文正文。
+请保留诗歌和散文的原本换行。`,
+    commentary: `这里写作品说明。`
+  },
+  ja: {
+    title: "新的日文标题",
+    summary: "新的日文摘要。",
+    content: `ここに新しい日本語本文を書く。`,
+    commentary: `ここに作品解説を書く。`
+  }
+}</pre>
+
+        <h3>常见修改场景</h3>
+        <ol class="scenario-list">
+          <li>修改标题：改 <code>zh.title</code> 和 <code>ja.title</code>。</li>
+          <li>修改摘要：改 <code>zh.summary</code> 和 <code>ja.summary</code>。</li>
+          <li>修改正文：改 <code>zh.content</code> 和 <code>ja.content</code>，多行正文用反引号包住。</li>
+          <li>修改分类：改 <code>category</code>，但必须使用网站已有分类。</li>
+          <li>修改标签：改 <code>tags</code>，每个标签都要加引号，标签之间用逗号。</li>
+          <li>修改音乐文件：改 <code>files</code> 中 <code>type: "audio"</code> 的那一项，音频推荐放到 <code>assets/audio/</code>。</li>
+          <li>修改图片文件：改 <code>images</code> 数组，图片推荐放到 <code>assets/images/works/</code> 对应分类文件夹。</li>
+        </ol>
+
+        <h3>修改已有作品时不要做的事</h3>
+        <ul class="avoid-list">
+          <li>不要把已有作品复制一份再改，否则会出现重复作品。</li>
+          <li>不要随便修改 <code>id</code>，除非确定没有其他地方引用它。</li>
+          <li>不要删除作品对象结尾的逗号。</li>
+          <li>不要删除整个 <code>works</code> 数组的中括号。</li>
+          <li>不要把多行正文写进普通双引号里。</li>
+          <li>不要使用电脑完整路径；请使用从 <code>assets/</code> 开始的相对路径。</li>
+          <li>不要一次修改太多篇作品，最好一次改一篇，刷新确认没问题后再继续。</li>
+        </ul>
+
+        <div class="mini-editor">
+          <h3>小型生成区：生成修改说明</h3>
+          <p class="hint">填写你想改的内容后，点击“生成修改说明”。它只会生成一段给 Codex 的说明，不会直接修改文件。</p>
+          <form class="helper-form" data-kind="edit-work">
+            <label class="full">要修改的作品标题或 id<input name="target" placeholder="例如 early-dream-2026-05-24 或 早时梦" /></label>
+            <label>category（新分类，可留空）
+              <select name="category">
+                <option value="">不修改分类</option>
+                <option value="painting">painting（绘画 / 美术）</option>
+                <option value="writing">writing（文字 / 诗 / 散文）</option>
+                <option value="music">music（音乐）</option>
+                <option value="game">game（游戏与交互）</option>
+                <option value="craft">craft（手工与生活作品）</option>
+              </select>
+            </label>
+            <label>tags（新标签，用逗号分隔，可留空）<input name="tags" placeholder="诗, 梦, 散文" /></label>
+            <label>zh.title（新中文标题）<input name="zhTitle" /></label>
+            <label>ja.title（新日文标题）<input name="jaTitle" /></label>
+            <label class="full">zh.summary（新中文摘要）<textarea name="zhSummary"></textarea></label>
+            <label class="full">ja.summary（新日文摘要）<textarea name="jaSummary"></textarea></label>
+            <label class="full">zh.content（新中文正文）<textarea name="zhContent"></textarea></label>
+            <label class="full">ja.content（新日文正文）<textarea name="jaContent"></textarea></label>
+            <label class="full">zh.commentary（新中文作品说明，可留空）<textarea name="zhCommentary"></textarea></label>
+            <label class="full">ja.commentary（日文作品解説，可留空）<textarea name="jaCommentary"></textarea></label>
+            <label class="full">images（新图片路径，多行，可留空）<textarea name="images" placeholder="assets/images/works/painting/example.jpg"></textarea></label>
+            <label class="full">files（新文件 / 音频，多行，可留空）<span class="field-note">格式：type|label|url，例如 audio|播放音乐|assets/audio/example.mp3</span><textarea name="files"></textarea></label>
+          </form>
+          <div class="helper-actions">
+            <button class="filter-button is-active" type="button" data-generate-edit>生成修改说明</button>
+            <button class="filter-button" type="button" data-copy-edit>复制修改说明</button>
+          </div>
+          <pre class="helper-output" id="editOutput"></pre>
+        </div>
+
+        <h3>修改后检查清单</h3>
+        <ul class="check-list">
+          <li>□ 作品列表还在正常显示</li>
+          <li>□ 被修改的作品没有消失</li>
+          <li>□ 没有出现重复作品</li>
+          <li>□ 标题显示正确</li>
+          <li>□ 摘要显示正确</li>
+          <li>□ 详情页可以打开</li>
+          <li>□ 正文换行没有乱</li>
+          <li>□ 作品说明和正文之间有空行</li>
+          <li>□ 日文内容显示正常</li>
+          <li>□ 图片 / 音频可以正常加载</li>
+          <li>□ 更新记录没有异常</li>
+          <li>□ 浏览器控制台没有红色报错</li>
+        </ul>
+      </section>
+      <section class="helper-guide safety-guide">
+        <h2>JS 格式安全提醒</h2>
+        <p>如果你手动修改 <code>data/works.js</code>，多行正文最容易让作品列表消失。请特别注意下面几点：</p>
+        <ul>
+          <li>普通双引号 <code>"..."</code> 不能直接跨很多行；诗歌、散文等多行正文建议使用反引号 <code>`...`</code>。</li>
+          <li>每个作品对象之间要有英文逗号 <code>,</code>，不要漏掉对象之间的分隔。</li>
+          <li>每个 <code>{}</code>、<code>[]</code>、<code>"</code> 和 <code>`</code> 都要成对闭合。</li>
+          <li>这个助手生成的代码会把换行处理成安全格式；如果再手动改正文，请尽量保留生成出来的外层字符串格式。</li>
+          <li>如果作品突然全部不显示，优先检查最后一次修改的作品对象。</li>
+        </ul>
+      </section>
+      <section class="helper-grid">
+        <article class="helper-card">
+          <h2>添加作品 Work（作品数据）</h2>
+          <p class="hint">files（相关文件）每行格式：<code>type|label|url</code>，例如 <code>audio|听音乐|assets/audio/demo.mp3</code>。</p>
+          <form class="helper-form" data-kind="work">
+            <label>id（唯一作品 ID，不要重复）<span class="field-note">建议使用英文、小写和连字符，例如 painting-night-room。</span><input name="id" placeholder="painting-night-room" /></label>
+            <label>category（作品分类，用于筛选）
+              <select name="category">
+                <option value="painting">painting（绘画 / 美术）</option>
+                <option value="writing">writing（文字 / 诗 / 散文）</option>
+                <option value="music">music（音乐）</option>
+                <option value="game">game（游戏与交互）</option>
+                <option value="craft">craft（手工与生活作品）</option>
+              </select>
+            </label>
+            <label>date（日期）<input name="date" type="date" /></label>
+            <label>tags（标签，用逗号分隔）<input name="tags" placeholder="文学, 散文" /></label>
+            <label class="checkbox-field">featured（是否精选，可选）<span class="field-note">勾选后会生成 featured: true；不勾选则为 false。</span><input name="featured" type="checkbox" /></label>
+            <label>cover（封面路径，可留空）
+              <span class="path-hint">请使用从 assets/ 开始的相对路径，例如 assets/images/works/painting/my-image.jpg。不要使用电脑完整路径。cover 路径可以留空；如果是作品，留空则使用该分类默认封面。images 路径用于填写图片。</span>
+              <input name="cover" placeholder="assets/images/works/painting/example.jpg" />
+            </label>
+            <label class="full">images（图片路径，多行）
+              <span class="path-hint">请使用从 assets/ 开始的相对路径，例如 assets/images/works/painting/my-image.jpg。不要使用电脑完整路径。cover 路径可以留空；如果是作品，留空则使用该分类默认封面。images 路径用于填写图片。</span>
+              <textarea name="images" placeholder="assets/images/works/painting/example-1.jpg&#10;assets/images/works/painting/example-2.jpg"></textarea>
+            </label>
+            <label class="full">files（相关文件 / 音频 / 外链，多行）<span class="field-note">格式：type|label|url。type 可以是 article、pdf、audio、external。</span><textarea name="files" placeholder="article|阅读文章|assets/files/articles/example.html&#10;pdf|打开 PDF|assets/files/pdf/example.pdf&#10;audio|听音乐|assets/audio/example.mp3&#10;external|外部链接|https://example.com"></textarea></label>
+            <label>zh.title（中文标题）<input name="zhTitle" /></label>
+            <label>ja.title（日文标题）<input name="jaTitle" /></label>
+            <label class="full">zh.summary（中文摘要：列表页简短介绍）<textarea name="zhSummary"></textarea></label>
+            <label class="full">ja.summary（日文摘要：列表页简短介绍）<textarea name="jaSummary"></textarea></label>
+            <label class="full">zh.content（中文正文：详情页内容，诗歌请保留换行）<textarea name="zhContent"></textarea></label>
+            <label class="full">ja.content（日文正文：详情页内容）<textarea name="jaContent"></textarea></label>
+            <label class="full">zh.commentary（中文作品说明，可选：会和正文分开显示）<textarea name="zhCommentary"></textarea></label>
+            <label class="full">ja.commentary（日文作品解説，可选）<textarea name="jaCommentary"></textarea></label>
+          </form>
+          <div class="helper-actions">
+            <button class="filter-button is-active" type="button" data-generate="work">生成作品对象</button>
+            <button class="filter-button" type="button" data-copy="work">复制</button>
+          </div>
+          <pre class="helper-output" id="workOutput"></pre>
+        </article>
+
+        <article class="helper-card">
+          <h2>添加日记 Journal（固定更新记录）</h2>
+          <p class="hint">tags（标签）和 relatedWorks（相关作品 ID）用逗号分隔。提示：作品新增记录已经会从 works.js 自动生成，通常不需要手动写。files 每行格式同上。</p>
+          <form class="helper-form" data-kind="journal">
+            <label>id <input name="id" placeholder="new-journal-note" /></label>
+            <label>date（日期）<input name="date" type="date" /></label>
+            <label class="full">tags（标签）<input name="tags" placeholder="AI, 作品集, 创作记录" /></label>
+            <label class="full">cover（封面路径，可留空）
+              <span class="path-hint">请使用从 assets/ 开始的相对路径，例如 assets/images/works/painting/my-image.jpg。不要使用电脑完整路径。cover 路径可以留空；如果是作品，留空则使用该分类默认封面。images 路径用于填写图片。</span>
+              <input name="cover" placeholder="assets/images/journal/example.jpg" />
+            </label>
+            <label class="full">relatedWorks（相关作品 ID）<input name="relatedWorks" placeholder="early-dream-2026-05-24, early-spring-2026-04-21" /></label>
+            <label class="full">images（图片路径，多行）
+              <span class="path-hint">请使用从 assets/ 开始的相对路径，例如 assets/images/works/painting/my-image.jpg。不要使用电脑完整路径。cover 路径可以留空；如果是作品，留空则使用该分类默认封面。images 路径用于填写图片。</span>
+              <textarea name="images" placeholder="assets/images/journal/example-1.jpg"></textarea>
+            </label>
+            <label class="full">files（相关文件 / 音频 / 外链，多行）<span class="field-note">格式：type|label|url。type 可以是 article、pdf、audio、external。</span><textarea name="files" placeholder="article|阅读完整文章|assets/files/articles/example.html&#10;audio|相关音乐|assets/audio/example.mp3"></textarea></label>
+            <label>zh.title（中文标题）<input name="zhTitle" /></label>
+            <label>ja.title（日文标题）<input name="jaTitle" /></label>
+            <label class="full">zh.summary（中文摘要：列表页简短介绍）<textarea name="zhSummary"></textarea></label>
+            <label class="full">ja.summary（日文摘要：列表页简短介绍）<textarea name="jaSummary"></textarea></label>
+            <label class="full">zh.content（中文正文：详情页内容，诗歌请保留换行）<textarea name="zhContent"></textarea></label>
+            <label class="full">ja.content（日文正文：详情页内容）<textarea name="jaContent"></textarea></label>
+            <label class="full">zh.commentary（中文作品说明，可选：会和正文分开显示）<textarea name="zhCommentary"></textarea></label>
+            <label class="full">ja.commentary（日文作品解説，可选）<textarea name="jaCommentary"></textarea></label>
+          </form>
+          <div class="helper-actions">
+            <button class="filter-button is-active" type="button" data-generate="journal">生成日记对象</button>
+            <button class="filter-button" type="button" data-copy="journal">复制</button>
+          </div>
+          <pre class="helper-output" id="journalOutput"></pre>
+        </article>
+
+        <article class="helper-card">
+          <h2>添加项目 Project（长期项目）</h2>
+          <p class="hint">links（相关链接）每行格式：<code>label|url</code>。status（项目状态）建议使用 ongoing、concept、documenting、completed。</p>
+          <form class="helper-form" data-kind="project">
+            <label>id <input name="id" placeholder="new-project" /></label>
+            <label>status（项目状态）
+              <select name="status">
+                <option value="ongoing">ongoing（进行中）</option>
+                <option value="concept">concept（构想中）</option>
+                <option value="documenting">documenting（长期记录中）</option>
+                <option value="completed">completed（已完成）</option>
+              </select>
+            </label>
+            <label class="full">cover（封面路径，可留空）
+              <span class="path-hint">请使用从 assets/ 开始的相对路径，例如 assets/images/works/painting/my-image.jpg。不要使用电脑完整路径。cover 路径可以留空；如果是作品，留空则使用该分类默认封面。images 路径用于填写图片。</span>
+              <input name="cover" placeholder="assets/images/projects/example.jpg" />
+            </label>
+            <label class="full">links（相关链接，多行）<textarea name="links" placeholder="查看相关作品|#works&#10;外部链接|https://example.com"></textarea></label>
+            <label class="full">files（相关文件 / 音频 / 外链，多行）<span class="field-note">格式：type|label|url。type 可以是 article、pdf、audio、external。</span><textarea name="files" placeholder="article|项目文档|assets/files/articles/project.html&#10;pdf|项目 PDF|assets/files/pdf/project.pdf"></textarea></label>
+            <label>zh.title（中文标题）<input name="zhTitle" /></label>
+            <label>ja.title（日文标题）<input name="jaTitle" /></label>
+            <label class="full">zh.summary（中文摘要：列表页简短介绍）<textarea name="zhSummary"></textarea></label>
+            <label class="full">ja.summary（日文摘要：列表页简短介绍）<textarea name="jaSummary"></textarea></label>
+            <label class="full">zh.content（中文正文：详情页内容，诗歌请保留换行）<textarea name="zhContent"></textarea></label>
+            <label class="full">ja.content（日文正文：详情页内容）<textarea name="jaContent"></textarea></label>
+            <label class="full">zh.commentary（中文作品说明，可选：会和正文分开显示）<textarea name="zhCommentary"></textarea></label>
+            <label class="full">ja.commentary（日文作品解説，可选）<textarea name="jaCommentary"></textarea></label>
+          </form>
+          <div class="helper-actions">
+            <button class="filter-button is-active" type="button" data-generate="project">生成项目对象</button>
+            <button class="filter-button" type="button" data-copy="project">复制</button>
+          </div>
+          <pre class="helper-output" id="projectOutput"></pre>
+        </article>
+      </section>
+    </main>
+
+    <script>
+      const today = new Date().toISOString().slice(0, 10);
+      document.querySelectorAll('input[type="date"]').forEach((input) => {
+        input.value = today;
+      });
+
+      function formData(kind) {
+        const form = document.querySelector(`form[data-kind="${kind}"]`);
+        return Object.fromEntries(new FormData(form).entries());
+      }
+
+      function lines(text) {
+        return String(text || "")
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(Boolean);
+      }
+
+      function normalizeAssetPath(value) {
+        let path = String(value || "").trim();
+        if (!path) return "";
+
+        path = path.replace(/^["']|["']$/g, "");
+        path = path.replace(/^file:\/\/\/?/i, "");
+
+        try {
+          path = decodeURIComponent(path);
+        } catch (error) {
+          // Keep the original path if it is not URI-encoded.
+        }
+
+        path = path.replace(/\\/g, "/");
+        path = path.replace(/\/+/g, "/");
+
+        const assetsIndex = path.toLowerCase().indexOf("/assets/");
+        if (assetsIndex >= 0) {
+          return path.slice(assetsIndex + 1);
+        }
+
+        if (path.toLowerCase().startsWith("assets/")) {
+          return path;
+        }
+
+        return path;
+      }
+
+      function normalizeUrl(value) {
+        const url = String(value || "").trim();
+        if (!url || url.startsWith("#") || /^https?:\/\//i.test(url)) return url;
+        return normalizeAssetPath(url);
+      }
+
+      function assetLines(text) {
+        return lines(text).map(normalizeAssetPath).filter(Boolean);
+      }
+
+      function commaList(text) {
+        return String(text || "")
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean);
+      }
+
+      function parseFiles(text) {
+        return lines(text).map((line) => {
+          const [type = "external", label = "相关链接", url = ""] = line.split("|").map((part) => part.trim());
+          return { type, label, url: normalizeUrl(url) };
+        });
+      }
+
+      function parseLinks(text) {
+        return lines(text).map((line) => {
+          const [label = "相关链接", url = ""] = line.split("|").map((part) => part.trim());
+          return { label, url: normalizeUrl(url) };
+        });
+      }
+
+      function objectToCode(object) {
+        return JSON.stringify(object, null, 2)
+          .replace(/"([^"]+)":/g, "$1:")
+          .replace(/"/g, '"');
+      }
+
+      function baseText(data) {
+        const zh = {
+          title: data.zhTitle || "中文标题",
+          summary: data.zhSummary || "作品摘要",
+          content: data.zhContent || ""
+        };
+        const ja = {
+          title: data.jaTitle || "日本語タイトル",
+          summary: data.jaSummary || "概要",
+          content: data.jaContent || ""
+        };
+
+        if (data.zhCommentary) zh.commentary = data.zhCommentary;
+        if (data.jaCommentary) ja.commentary = data.jaCommentary;
+
+        return { zh, ja };
+      }
+      function buildObject(kind) {
+        const data = formData(kind);
+        if (kind === "work") {
+          const images = assetLines(data.images);
+          const cover = normalizeAssetPath(data.cover) || "";
+          return {
+            id: data.id || "new-work-id",
+            category: data.category || "painting",
+            date: data.date || today,
+            cover,
+            images,
+            files: parseFiles(data.files),
+            tags: commaList(data.tags),
+            featured: data.featured === "on",
+            ...baseText(data)
+          };
+        }
+
+        if (kind === "journal") {
+          const images = assetLines(data.images);
+          const cover = normalizeAssetPath(data.cover) || "";
+          return {
+            id: data.id || "new-journal-id",
+            date: data.date || today,
+            tags: commaList(data.tags),
+            cover,
+            relatedWorks: commaList(data.relatedWorks),
+            images,
+            files: parseFiles(data.files),
+            ...baseText(data)
+          };
+        }
+
+        return {
+          id: data.id || "new-project-id",
+          status: data.status || "ongoing",
+          cover: normalizeAssetPath(data.cover) || "",
+          links: parseLinks(data.links),
+          files: parseFiles(data.files),
+          ...baseText(data)
+        };
+      }
+
+
+      function buildEditInstruction() {
+        const data = formData("edit-work");
+        const changes = [];
+        const target = data.target || "请填写要修改的作品标题或 id";
+
+        if (data.category) changes.push(`- category: "${data.category}"`);
+        if (data.tags) changes.push(`- tags: ${JSON.stringify(commaList(data.tags))}`);
+        if (data.zhTitle) changes.push(`- zh.title: "${data.zhTitle}"`);
+        if (data.jaTitle) changes.push(`- ja.title: "${data.jaTitle}"`);
+        if (data.zhSummary) changes.push(`- zh.summary: "${data.zhSummary}"`);
+        if (data.jaSummary) changes.push(`- ja.summary: "${data.jaSummary}"`);
+        if (data.zhContent) changes.push(`- zh.content: 使用反引号多行字符串，内容为：\n${data.zhContent}`);
+        if (data.jaContent) changes.push(`- ja.content: 使用反引号多行字符串，内容为：\n${data.jaContent}`);
+        if (data.zhCommentary) changes.push(`- zh.commentary: 使用反引号多行字符串，内容为：\n${data.zhCommentary}`);
+        if (data.jaCommentary) changes.push(`- ja.commentary: 使用反引号多行字符串，内容为：\n${data.jaCommentary}`);
+
+        const images = assetLines(data.images);
+        if (images.length) changes.push(`- images: ${JSON.stringify(images, null, 2)}`);
+
+        const files = parseFiles(data.files);
+        if (files.length) changes.push(`- files: ${JSON.stringify(files, null, 2)}`);
+
+        const changeText = changes.length ? changes.join("\n") : "- 还没有填写要修改的字段，请先填写新标题、摘要、正文、图片或音频路径。";
+
+        return `请在 data/works.js 中找到已有作品：${target}
+
+要求：
+1. 不要新建重复作品。
+2. 尽量保留原 id，除非我明确要求修改 id。
+3. 只修改该作品对象里的以下字段，不要删除其他作品。
+4. 多行正文请使用反引号，保留诗歌和散文原本换行。
+5. 图片、音频、文章路径必须使用 assets/ 开头的相对路径，并使用 /。
+
+需要修改的字段：
+${changeText}
+
+修改后请检查：作品列表正常、详情页可打开、没有重复作品、更新记录没有异常。`;
+      }
+
+      function generateEditInstruction() {
+        document.querySelector("#editOutput").textContent = buildEditInstruction();
+      }
+
+      async function copyEditInstruction() {
+        const output = document.querySelector("#editOutput");
+        if (!output.textContent.trim()) generateEditInstruction();
+        await navigator.clipboard.writeText(output.textContent);
+      }
+      function generate(kind) {
+        const output = document.querySelector(`#${kind}Output`);
+        output.textContent = objectToCode(buildObject(kind)) + ",";
+      }
+
+      async function copyOutput(kind) {
+        const output = document.querySelector(`#${kind}Output`);
+        if (!output.textContent.trim()) generate(kind);
+        await navigator.clipboard.writeText(output.textContent);
+      }
+
+      document.addEventListener("click", (event) => {
+        const generateEditButton = event.target.closest("[data-generate-edit]");
+        if (generateEditButton) generateEditInstruction();
+
+        const copyEditButton = event.target.closest("[data-copy-edit]");
+        if (copyEditButton) copyEditInstruction();
+
+        const generateButton = event.target.closest("[data-generate]");
+        if (generateButton) generate(generateButton.dataset.generate);
+
+        const copyButton = event.target.closest("[data-copy]");
+        if (copyButton) copyOutput(copyButton.dataset.copy);
+      });
+
+      window.AIKO_HELPER = {
+        normalizeAssetPath,
+        normalizeUrl,
+        assetLines,
+        parseFiles,
+        buildObject,
+        generate,
+        buildEditInstruction,
+        generateEditInstruction,
+      };
+
+      generate("work");
+      generate("journal");
+      generate("project");
+      generateEditInstruction();
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
