@@ -21,10 +21,16 @@ function resetDetailScroll(dialog) {
   });
 }
 
+function isDetailDialogOpen(dialog) {
+  return Boolean(
+    dialog &&
+      (dialog.open || dialog.hasAttribute("open") || dialog.classList.contains("is-fallback-open"))
+  );
+}
 function showDetailDialog(dialog) {
   document.body.classList.add("modal-open");
   if (typeof dialog.showModal === "function") {
-    if (!dialog.open) dialog.showModal();
+    if (!isDetailDialogOpen(dialog)) dialog.showModal();
   } else {
     dialog.setAttribute("open", "");
     dialog.classList.add("is-fallback-open");
@@ -210,7 +216,22 @@ function localize(value) {
 }
 
 function textBlock(item) {
-  return item[currentLang] || item.zh || item.ja || {};
+  const nested = item[currentLang] || {};
+  const fallback = item.zh || item.ja || {};
+  if (currentLang === "ja") {
+    return {
+      title: nested.title || item.titleJa || item.title || fallback.title || "",
+      summary: nested.summary || item.summaryJa || item.summary || fallback.summary || "",
+      content: nested.content || item.contentJa || item.content || fallback.content || "",
+      commentary: nested.commentary || item.commentaryJa || item.commentary || fallback.commentary || ""
+    };
+  }
+  return {
+    title: nested.title || item.title || item.titleJa || fallback.title || "",
+    summary: nested.summary || item.summary || item.summaryJa || fallback.summary || "",
+    content: nested.content || item.content || item.contentJa || fallback.content || "",
+    commentary: nested.commentary || item.commentary || item.commentaryJa || fallback.commentary || ""
+  };
 }
 
 function escapeHtml(text) {
@@ -463,7 +484,7 @@ function setLanguage(lang) {
   document.querySelector(".dialog-close")?.setAttribute("aria-label", lang === "ja" ? "閉じる" : "关闭");
 
   const dialog = document.querySelector("#detailDialog");
-  if (dialog?.open && currentDetail) {
+  if (isDetailDialogOpen(dialog) && currentDetail) {
     openDetail(currentDetail.type, currentDetail.id);
   }
 }
