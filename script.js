@@ -1,3 +1,8 @@
+console.log("Aiko Works script loaded: 20260614-1205");
+window.AIKO_WORKS_BUILD = "20260614-1205";
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.dataset.build = "20260614-1205";
+});
 function setViewportHeight() {
   document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
 }
