@@ -33,6 +33,7 @@ function showDetailDialog(dialog) {
 }
 
 function closeDetailDialog() {
+  currentDetail = null;
   const dialog = document.querySelector("#detailDialog");
   if (!dialog) return;
   if (typeof dialog.close === "function" && dialog.open) {
@@ -193,6 +194,7 @@ const statusLabels = {
 
 let currentLang = localStorage.getItem("aiko-lang") || "zh";
 let activeCategory = "all";
+let currentDetail = null;
 const JOURNAL_PREVIEW_LIMIT = 6;
 let isJournalExpanded = false;
 
@@ -458,6 +460,12 @@ function setLanguage(lang) {
   renderWorks();
   renderJournal();
   renderProjects();
+  document.querySelector(".dialog-close")?.setAttribute("aria-label", lang === "ja" ? "閉じる" : "关闭");
+
+  const dialog = document.querySelector("#detailDialog");
+  if (dialog?.open && currentDetail) {
+    openDetail(currentDetail.type, currentDetail.id);
+  }
 }
 
 function renderPhilosophy() {
@@ -603,6 +611,7 @@ function openDetail(type, id) {
   };
   const item = dataMap[type].find((entry) => entry.id === id);
   if (!item) return;
+  currentDetail = { type, id };
 
   const block = textBlock(item);
   const cover = type === "work" ? coverFor(item) : item.cover || fallbackCover;
@@ -703,6 +712,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailDialog = document.querySelector("#detailDialog");
   document.querySelector(".dialog-close").addEventListener("click", closeDetailDialog);
   detailDialog.addEventListener("close", () => {
+    currentDetail = null;
     detailDialog.classList.remove("is-fallback-open");
     document.body.classList.remove("modal-open");
   });
