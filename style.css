@@ -455,6 +455,39 @@ h3 {
   background: transparent;
 }
 
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.detail-dialog[open],
+.detail-dialog.is-fallback-open {
+  max-height: calc(var(--vh, 1vh) * 100);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.detail-dialog.is-fallback-open {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1rem;
+  background: rgba(16, 28, 23, 0.58);
+  box-sizing: border-box;
+}
+
+.detail-dialog:not([open]) {
+  display: none;
+}
+
+.detail-dialog[open],
+.detail-dialog.is-fallback-open {
+  display: block;
+}
 .detail-dialog::backdrop {
   background: rgba(16, 28, 23, 0.58);
   backdrop-filter: blur(5px);
@@ -1202,4 +1235,59 @@ main,
 .detail-resource-link:hover {
   border-color: rgba(92, 111, 94, 0.34);
   background: rgba(255, 253, 247, 0.9);
+}
+
+/* iOS mobile detail dialog */
+@media (max-width: 860px) {
+  .detail-dialog {
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+  }
+
+  .detail-dialog[open],
+  .detail-dialog.is-fallback-open {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    width: 100%;
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    padding: max(0.85rem, env(safe-area-inset-top)) 0.85rem max(1rem, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+
+  .detail-dialog[open] .dialog-card,
+  .detail-dialog.is-fallback-open .dialog-card {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    overflow: visible;
+    border-radius: 14px;
+  }
+
+  .dialog-close {
+    position: fixed;
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    z-index: 9999;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(79, 102, 88, 0.34);
+    color: var(--forest);
+    background: rgba(255, 253, 247, 0.9);
+    box-shadow: 0 10px 24px rgba(36, 53, 44, 0.18);
+    font-size: 1.4rem;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .dialog-body {
+    padding: 1.1rem;
+  }
 }

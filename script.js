@@ -1,3 +1,48 @@
+function setViewportHeight() {
+  document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+}
+
+setViewportHeight();
+window.addEventListener("resize", setViewportHeight);
+window.addEventListener("orientationchange", setViewportHeight);
+
+function resetDetailScroll(dialog) {
+  const card = dialog?.querySelector(".dialog-card");
+  const content = dialog?.querySelector("#dialogContent");
+  const reset = () => {
+    if (dialog) dialog.scrollTop = 0;
+    if (card) card.scrollTop = 0;
+    if (content) content.scrollTop = 0;
+  };
+  reset();
+  requestAnimationFrame(() => {
+    reset();
+    requestAnimationFrame(reset);
+  });
+}
+
+function showDetailDialog(dialog) {
+  document.body.classList.add("modal-open");
+  if (typeof dialog.showModal === "function") {
+    if (!dialog.open) dialog.showModal();
+  } else {
+    dialog.setAttribute("open", "");
+    dialog.classList.add("is-fallback-open");
+  }
+  resetDetailScroll(dialog);
+}
+
+function closeDetailDialog() {
+  const dialog = document.querySelector("#detailDialog");
+  if (!dialog) return;
+  if (typeof dialog.close === "function" && dialog.open) {
+    dialog.close();
+  } else {
+    dialog.removeAttribute("open");
+    dialog.classList.remove("is-fallback-open");
+    document.body.classList.remove("modal-open");
+  }
+}
 const translations = {
   zh: {
     "nav.home": "首页",
@@ -623,11 +668,7 @@ function openDetail(type, id) {
   `;
 
   const dialog = document.querySelector("#detailDialog");
-  if (dialog.open) {
-    dialog.scrollTop = 0;
-  } else {
-    dialog.showModal();
-  }
+  showDetailDialog(dialog);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -654,12 +695,22 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", (event) => {
     const detailButton = event.target.closest("[data-detail-type]");
     if (detailButton) {
+      event.preventDefault();
       openDetail(detailButton.dataset.detailType, detailButton.dataset.id);
     }
   });
 
-  document.querySelector(".dialog-close").addEventListener("click", () => {
-    document.querySelector("#detailDialog").close();
+  const detailDialog = document.querySelector("#detailDialog");
+  document.querySelector(".dialog-close").addEventListener("click", closeDetailDialog);
+  detailDialog.addEventListener("close", () => {
+    detailDialog.classList.remove("is-fallback-open");
+    document.body.classList.remove("modal-open");
+  });
+  detailDialog.addEventListener("cancel", () => {
+    document.body.classList.remove("modal-open");
+  });
+  detailDialog.addEventListener("click", (event) => {
+    if (event.target === detailDialog) closeDetailDialog();
   });
 
   setLanguage(currentLang);
