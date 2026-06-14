@@ -502,17 +502,23 @@ body.modal-open {
 }
 
 .dialog-close {
-  position: absolute;
-  top: 0.65rem;
-  right: 0.65rem;
-  z-index: 5;
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 1px solid rgba(255, 250, 241, 0.7);
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(79, 102, 88, 0.34);
   border-radius: 999px;
-  color: var(--rice);
-  background: rgba(36, 53, 44, 0.72);
+  color: var(--forest);
+  background: rgba(255, 253, 247, 0.92);
+  box-shadow: 0 10px 24px rgba(36, 53, 44, 0.18);
+  font-size: 1.4rem;
+  line-height: 1;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dialog-image {
